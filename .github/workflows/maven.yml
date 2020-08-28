@@ -26,4 +26,4 @@ jobs:
         BDUSS: ${{ secrets.BDUSS }}
       run: |
         cd TiebaSignIn
-        mvn compile exec:java -Dexec.mainClass="org.example.App" -Dexec.args="${BDUSS} "
+        mvn compile exec:java -Dexec.mainClass="org.example.App" -Dexec.args="${BDUSS}"
