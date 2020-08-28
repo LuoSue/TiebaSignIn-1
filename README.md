@@ -10,11 +10,11 @@
 
 在网页中登录上贴吧，然后按下f12打开调试模式，找到如下图的位置就是BDUSS
 
-[img1](./assets/img1.png)
+![img1](./assets/img1.png)
 
 ## 3.将BDUSS添加到仓库的Secrets中
 
-[img2](./assets/img2.png)
+![img2](./assets/img2.png)
 
 ## 成功了
 
