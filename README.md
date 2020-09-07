@@ -20,7 +20,7 @@
 
 默认actions是处于禁止的状态，需要手动开启。
 
-![img3](./assets/img2.png)
+![img3](./assets/img3.png)
 
 ## 成功了
 
