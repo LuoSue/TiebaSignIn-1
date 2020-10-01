@@ -46,7 +46,7 @@ public class App
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         //设置请求方式
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("Host","User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
+        connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
         connection.setRequestProperty("Cookie", "BDUSS="+BDUSS);//设置请求头
         //连接
         connection.connect();
