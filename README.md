@@ -1,5 +1,10 @@
 ## 利用github actions贴吧自动签到
 
+![](https://img.shields.io/github/issues/srcrs/TiebaSignIn?color=green)
+![](https://img.shields.io/github/forks/srcrs/TiebaSignIn?color=yellow)
+![](https://img.shields.io/github/stars/srcrs/TiebaSignIn?color=orange)
+![](https://img.shields.io/github/license/srcrs/TiebaSignIn?color=ff69b4)
+
 用的是手机端的接口，签到经验更多，用户只需要填写BDUSS即可，最多支持200个贴吧签到。
 
 ## 使用方法
@@ -21,6 +26,14 @@
 默认actions是处于禁止的状态，需要手动开启。
 
 ![img3](./assets/img3.png)
+
+## 5.第一次运行actions
+
+可以自己提交一次push，或者新创建一个wiki都会触发第一次运行。
+
+![img4](./assets/img4.png)
+
+![img5](./assets/img5.png)
 
 ## 成功了
 
