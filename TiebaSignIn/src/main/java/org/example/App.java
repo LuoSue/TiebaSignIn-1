@@ -23,16 +23,22 @@ public class App
     String SIGN_URL = "http://c.tieba.baidu.com/c/c/forum/sign";
 
     static int index=0;
+    static int num=1;
 
     static String BDUSS = "";
 
     String tbs = "";
 
     public static void main( String[] args ) throws Exception {
-        BDUSS = args[0];
-        App app = new App();
-        app.getTbs();
-        app.getFollow();
+        /** 用&&分割每个账号 */
+        String[] param = args[0].split("&&");
+        for(int i=0;i<param.length;i++){
+            index=0;
+            BDUSS = param[i];
+            App app = new App();
+            app.getTbs();
+            app.getFollow();
+        }
     }
 
     /**
@@ -40,7 +46,7 @@ public class App
      * @throws Exception
      */
     public void getTbs() throws Exception {
-        System.out.println("开始进行登录...");
+        System.out.println("账号: "+ num++ +" 开始进行登录...");
         URL url = new URL(TBS_URL);
         //得到connection对象。
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -99,6 +105,7 @@ public class App
                 JSONObject jb = (JSONObject)array;
                 runSign(jb.getString("forum_name"));
             }
+            System.out.println("------------------------------------------------------------");
         }
         else{
             System.out.println("获取贴吧列表失败!!!");
