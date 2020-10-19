@@ -21,6 +21,12 @@
 
 ![img2](./assets/img2.png)
 
+多用户的格式如下，添加到上图的Value中。
+
+```sh
+第一个BDUSS&&第二个BDUSS
+```
+
 ## 4.开启actions
 
 默认actions是处于禁止的状态，需要手动开启。
