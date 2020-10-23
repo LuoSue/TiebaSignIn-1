@@ -35,9 +35,19 @@
 
 ## 5.第一次运行actions
 
-可以自己提交一次push，或者新创建一个wiki都会触发第一次运行。
++ 自己提交一次`push`。
 
-![img4](./assets/img4.png)
+将`run.txt`中的
+
+```sh
+flag: 0
+```
+
+改成
+
+```sh
+flag: 1
+```
 
 ![img5](./assets/img5.png)
 
