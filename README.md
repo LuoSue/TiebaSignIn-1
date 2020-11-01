@@ -1,64 +1,67 @@
-## 利用github actions贴吧自动签到
+<div align="center"> 
+<h1 align="center">贴吧签到助手</h1>
+<img src="https://img.shields.io/github/issues/srcrs/TiebaSignIn?color=green">
+<img src="https://img.shields.io/github/stars/srcrs/TiebaSignIn?color=yellow">
+<img src="https://img.shields.io/github/forks/srcrs/TiebaSignIn?color=orange">
+<img src="https://img.shields.io/github/license/srcrs/TiebaSignIn?color=ff69b4">
+<img src="https://img.shields.io/github/languages/code-size/srcrs/TiebaSignIn?color=blueviolet">
+</div>
 
-![](https://img.shields.io/github/issues/srcrs/TiebaSignIn?color=green)
-![](https://img.shields.io/github/forks/srcrs/TiebaSignIn?color=yellow)
-![](https://img.shields.io/github/stars/srcrs/TiebaSignIn?color=orange)
-![](https://img.shields.io/github/license/srcrs/TiebaSignIn?color=ff69b4)
+用的是手机端的接口，签到经验更多，用户只需要填写`BDUSS`即可，每日自动帮你签到，最多支持`200`个贴吧签到。
 
-用的是手机端的接口，签到经验更多，用户只需要填写BDUSS即可，最多支持200个贴吧签到。
-
-## 使用方法
+# 使用方法
 
 ## 1.fork本项目
 
 ## 2.获取BDUSS
 
-在网页中登录上贴吧，然后按下f12打开调试模式，找到如下图的位置就是BDUSS
+在网页中登录上贴吧，然后按下`F12`打开调试模式，在`cookie`中找到`BDUSS`，并复制其`Value`值。
 
-![img1](./assets/img1.png)
+![](./assets/获取BDUSS.gif)
 
 ## 3.将BDUSS添加到仓库的Secrets中
 
-![img2](./assets/img2.png)
+Name | Value
+-|-
+BDUSS | xxxxxxxxxxx
 
-多用户的格式如下，添加到上图的Value中。
+将上一步骤获取到的`BDUSS`粘贴到`Secrets`中
 
-```sh
-第一个BDUSS&&第二个BDUSS
-```
+![](./assets/添加BDUSS.gif)
 
 ## 4.开启actions
 
-默认actions是处于禁止的状态，需要手动开启。
+默认`actions`是处于禁止的状态，需要手动开启。
 
-![img3](./assets/img3.png)
+![](./assets/开启actions.gif)
 
 ## 5.第一次运行actions
 
 + 自己提交一次`push`。
 
-将`run.txt`中的
+将`run.txt`中的`flag`由`0`改为`1`
 
-```sh
-flag: 0
+```patch
+- flag: 0
++ flag: 1
 ```
 
-改成
-
-```sh
-flag: 1
-```
-
-![img5](./assets/img5.png)
+![](./assets/运行结果.gif)
 
 ## 成功了
 
-每天早上六点和下午六点将会进行签到，一次签到可能有的贴吧会签到失败。
+每天早上`6:30`将会自动进行签到
+
+## 2020-11-01
+
++ 代码重构
+
++ 修改签到策略
+
+大大提高一次运行，贴吧签到的成功率，基本很少的贴吧会签到失败。
+
++ 去除多用户的支持
 
 ## 2020-10-19
 
-增加支持多账户签到，每个账号的BDUSS使用`&&`分割，具体格式如下。
-
-```sh
-第一个BDUSS&&第二个BDUSS
-```
+~~增加支持多账户签到，每个账号的`BDUSS`使用`&&`分割，具体格式如下。~~

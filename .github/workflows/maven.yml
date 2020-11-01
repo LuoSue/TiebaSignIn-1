@@ -1,15 +1,12 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
-# 每天早上六点和晚上六点执行
+# 每天6:30执行
 
 name: Java CI with Maven
 
 on:
    push:
-   gollum: 
-   schedule: 
-       - cron: '0 10,22 * * *'
+   gollum:
+   schedule:
+       - cron: '30 22 * * *'
 
 jobs:
   one:
@@ -30,7 +27,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
     - name: Build with Maven
-      env: 
+      env:
         BDUSS: ${{ secrets.BDUSS }}
       run: |
         cd TiebaSignIn
