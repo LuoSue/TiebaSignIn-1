@@ -7,13 +7,15 @@
 <img src="https://img.shields.io/github/languages/code-size/srcrs/TiebaSignIn?color=blueviolet">
 </div>
 
+# 简介
+
 用的是手机端的接口，签到经验更多，用户只需要填写`BDUSS`即可，每日自动帮你签到，最多支持`200`个贴吧签到。
 
 # 功能
 
 + 贴吧签到(最多支持 200 个)
 
-+ 支持推送运行结果至微信(通过server酱)
++ 支持推送运行结果至微信(通过 server 酱)
 
 # 使用方法
 
