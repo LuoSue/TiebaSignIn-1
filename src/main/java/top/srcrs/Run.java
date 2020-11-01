@@ -67,13 +67,13 @@ public class Run
         try{
             JSONObject jsonObject = Request.get(TBS_URL);
             if("1".equals(jsonObject.getString("is_login"))){
-                LOGGER.warn("获取tbs成功");
+                LOGGER.info("获取tbs成功");
                 tbs = jsonObject.getString("tbs");
             } else{
-                LOGGER.info("获取tbs失败 -- " + jsonObject);
+                LOGGER.warn("获取tbs失败 -- " + jsonObject);
             }
         } catch (Exception e){
-            LOGGER.warn("获取tbs部分出现错误 -- " + e);
+            LOGGER.error("获取tbs部分出现错误 -- " + e);
         }
     }
 
@@ -99,7 +99,7 @@ public class Run
                 }
             }
         } catch (Exception e){
-            LOGGER.info("获取贴吧列表部分出现错误 -- " + e);
+            LOGGER.error("获取贴吧列表部分出现错误 -- " + e);
         }
     }
 
@@ -126,7 +126,7 @@ public class Run
                         success.add(s);
                         LOGGER.info(s + ": " + "签到成功");
                     } else {
-                        LOGGER.info(s + ": " + "签到失败");
+                        LOGGER.warn(s + ": " + "签到失败");
                     }
                 }
                 if (success.size() != followNum){
