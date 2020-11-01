@@ -29,6 +29,6 @@ jobs:
     - name: Build with Maven
       env:
         BDUSS: ${{ secrets.BDUSS }}
+        SCKEY: ${{ secrets.SCKEY }}
       run: |
-        cd TiebaSignIn
-        mvn compile exec:java -Dexec.mainClass="org.example.App" -Dexec.args="${BDUSS}"
+        mvn compile exec:java -Dexec.mainClass="top.srcrs.Run" -Dexec.args="${BDUSS} ${SCKEY}"
