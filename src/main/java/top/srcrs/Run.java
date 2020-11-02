@@ -148,9 +148,9 @@ public class Run
      */
     public void send(String sckey){
         /** 将要推送的数据 */
-        String desp = "共 "+ followNum + " 个贴吧\n\n";
-        desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
-        String body = "text="+"TiebaSignIn运行结果"+"&desp="+desp;
+        String text = "总: "+ followNum + " - ";
+        text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
+        String body = "text="+text+"&desp="+"TiebaSignIn运行结果";
         StringEntity entityBody = new StringEntity(body,"UTF-8");
         HttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost("https://sc.ftqq.com/"+sckey+".send");
