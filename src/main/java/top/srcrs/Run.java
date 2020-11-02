@@ -151,7 +151,7 @@ public class Run
         String text = "总: "+ followNum + " - ";
         text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
         String desp = "共 "+ followNum + " 贴吧\n\n";
-        text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
+        desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
         String body = "text="+text+"&desp="+"TiebaSignIn运行结果\n\n"+desp;
         StringEntity entityBody = new StringEntity(body,"UTF-8");
         HttpClient client = HttpClients.createDefault();
