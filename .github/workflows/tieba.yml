@@ -1,6 +1,6 @@
 # 每天6:30执行
 
-name: Java CI with Maven
+name: Start
 
 on:
    push:
