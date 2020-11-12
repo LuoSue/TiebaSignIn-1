@@ -9,7 +9,7 @@ on:
        - cron: '30 22 * * *'
 
 jobs:
-  one:
+  TiebaSignIn:
 
     runs-on: ubuntu-latest
 
