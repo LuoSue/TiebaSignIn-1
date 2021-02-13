@@ -92,7 +92,7 @@ public class Run
             for (Object array : jsonArray) {
                 if("0".equals(((JSONObject) array).getString("is_sign"))){
                     // 将为签到的贴吧加入到 follow 中，待签到
-                    follow.add(((JSONObject) array).getString("forum_name"));
+                    follow.add(((JSONObject) array).getString("forum_name").replace("+","%2B"));
                 } else{
                     // 将已经成功签到的贴吧，加入到 success
                     success.add(((JSONObject) array).getString("forum_name"));
@@ -119,14 +119,15 @@ public class Run
                 Iterator<String> iterator = follow.iterator();
                 while(iterator.hasNext()){
                     String s = iterator.next();
-                    String body = "kw="+s+"&tbs="+tbs+"&sign="+ Encryption.enCodeMd5("kw="+s+"tbs="+tbs+"tiebaclient!!!");
+                    String rotation = s.replace("%2B","+");
+                    String body = "kw="+s+"&tbs="+tbs+"&sign="+ Encryption.enCodeMd5("kw="+rotation+"tbs="+tbs+"tiebaclient!!!");
                     JSONObject post = Request.post(SIGN_URL, body);
                     if("0".equals(post.getString("error_code"))){
                         iterator.remove();
-                        success.add(s);
-                        LOGGER.info(s + ": " + "签到成功");
+                        success.add(rotation);
+                        LOGGER.info(rotation + ": " + "签到成功");
                     } else {
-                        LOGGER.warn(s + ": " + "签到失败");
+                        LOGGER.warn(rotation + ": " + "签到失败");
                     }
                 }
                 if (success.size() != followNum){
