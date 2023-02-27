@@ -3,10 +3,10 @@
 name: Start
 
 on:
-   push:
+   workflow_dispatch:
    gollum:
    schedule:
-       - cron: '30 06 * * *'
+       - cron: '30 22 * * *'
 
 jobs:
   TiebaSignIn:
