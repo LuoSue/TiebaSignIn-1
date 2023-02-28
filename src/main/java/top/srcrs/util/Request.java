@@ -8,6 +8,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -123,15 +124,15 @@ public class Request {
      */
     public static Boolean isTiebaNotExist(String name) throws Exception {
 
-        String url = "https://tieba.baidu.com/f?ie=utf-8&kw=" + name;
+        String url = "https://tieba.baidu.com/f?ie=utf-8&kw=" + name + "&fr=search";
         RequestConfig defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
         HttpClient client = HttpClients.custom().setDefaultRequestConfig(defaultConfig).build();
         HttpGet request = new HttpGet(url);
 
         request.addHeader("connection", "keep-alive");
-        request.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.addHeader("Content-Type", "text/html; charset=UTF-8");
         request.addHeader("charset", "UTF-8");
-        request.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
+        request.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.57");
 
         HttpResponse response = client.execute(request);
         BufferedReader rd = new BufferedReader(
@@ -142,7 +143,13 @@ public class Request {
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
-        return result.toString().contains("很抱歉，没有找到相关内容");
+        if(result.toString().contains("很抱歉，没有找到相关内容")){
+            LOGGER.info("{} 不存在",name);
+            return true;
+        } else {
+            LOGGER.info("{} 存在",name);
+            return false;
+        }
     }
 }
 
