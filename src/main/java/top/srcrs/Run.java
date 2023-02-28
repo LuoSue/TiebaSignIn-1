@@ -163,6 +163,10 @@ public class Run {
                     String rotation = s.replace("%2B", "+");
                     String body = "kw=" + s + "&tbs=" + tbs + "&sign=" + Encryption.enCodeMd5("kw=" + rotation + "tbs=" + tbs + "tiebaclient!!!");
                     JSONObject post = new JSONObject();
+                    post = Request.post(SIGN_URL, body);
+                    int randomTime = new Random().nextInt(200) + 300;
+                    LOGGER.info("等待 {} 毫秒", randomTime);
+                    TimeUnit.MILLISECONDS.sleep(randomTime);
                     if ("0".equals(post.getString("error_code"))) {
                         iterator.remove();
                         success.add(rotation);
