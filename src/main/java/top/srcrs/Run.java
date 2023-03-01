@@ -55,7 +55,7 @@ public class Run {
     /**
      * 签到失败的贴吧列表
      */
-    private static List<String> filed = new ArrayList<>();
+    private static HashSet<String> failed = new HashSet<String>();
 
     /**
      * 失效的贴吧列表
@@ -82,7 +82,7 @@ public class Run {
         run.getTbs();
         run.getFollow();
         run.runSign();
-        LOGGER.info("共 {} 个贴吧 - 成功: {} - 失败: {} - {} ", followNum, success.size(), followNum - success.size(), filed);
+        LOGGER.info("共 {} 个贴吧 - 成功: {} - 失败: {} - {} ", followNum, success.size(), followNum - success.size(), failed);
         LOGGER.info("失效 {} 个贴吧: {} ", invalid.size(), invalid);
         if (args.length == 2) {
             run.send(args[1]);
@@ -131,7 +131,7 @@ public class Run {
                     if (Request.isTiebaNotExist(tiebaName)) {
                         follow.remove(tiebaName);
                         invalid.add(tiebaName);
-                        filed.add(tiebaName);
+                        failed.add(tiebaName);
                     }
                 } else {
                     // 将已经成功签到的贴吧，加入到 success
@@ -170,10 +170,10 @@ public class Run {
                     if ("0".equals(post.getString("error_code"))) {
                         iterator.remove();
                         success.add(rotation);
-                        filed.remove(rotation);
+                        failed.remove(rotation);
                         LOGGER.info(rotation + ": " + "签到成功");
                     } else {
-                        filed.add(rotation);
+                        failed.add(rotation);
                         LOGGER.warn(rotation + ": " + "签到失败");
                     }
                 }
