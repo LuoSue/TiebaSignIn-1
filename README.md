@@ -1,5 +1,5 @@
 <div align="center"> 
-<h1 align="center">贴吧签到助.手</h1>
+<h1 align="center">贴吧签到助..手</h1>
 <img src="https://img.shields.io/github/issues/srcrs/TiebaSignIn?color=green">
 <img src="https://img.shields.io/github/stars/srcrs/TiebaSignIn?color=yellow">
 <img src="https://img.shields.io/github/forks/srcrs/TiebaSignIn?color=orange">
