@@ -1,5 +1,5 @@
 <div align="center"> 
-<h1 align="center">贴吧签到助手</h1>
+<h1 align="center">贴吧签到助..手</h1>
 <img src="https://img.shields.io/github/issues/srcrs/TiebaSignIn?color=green">
 <img src="https://img.shields.io/github/stars/srcrs/TiebaSignIn?color=yellow">
 <img src="https://img.shields.io/github/forks/srcrs/TiebaSignIn?color=orange">
@@ -8,7 +8,6 @@
 </div>
 
 # 简介
-
 用的是手机端的接口，签到经验更多，用户只需要填写`BDUSS`即可，每日自动帮你签到，最多支持`200`个贴吧签到。
 
 # 功能
@@ -27,7 +26,7 @@
 
 ![](./assets/获取BDUSS.gif)
 
-## 3.将BDUSS添加到仓库的Secrets中
+## 3.将BDUSS添加到仓库的Secrets中.
 
 Name | Value
 -|-
