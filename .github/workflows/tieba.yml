@@ -1,10 +1,9 @@
 # 每天6:30执行
-
+# UTC 时间，北京时间需要 UTC+8
 name: Start
 
 on:
-   push:
-   gollum:
+   workflow_dispatch:
    schedule:
        - cron: '30 22 * * *'
 
