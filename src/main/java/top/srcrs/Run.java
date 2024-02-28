@@ -241,7 +241,7 @@ public class Run {
         String body = "text=" + text + "&desp=" + "TiebaSignIn运行结果\n\n" + desp;
 
 try {
-            String token = "de5afffd906b4a4a9c4565098bf200d3";
+            String token = sckey;
             String title = URLEncoder.encode("百度贴吧自动签到", "UTF-8");
             String content = URLEncoder.encode(body, "UTF-8");
             String urlx = "https://www.pushplus.plus/send?title=" + title + "&content=" + content + "&token=" + token;
