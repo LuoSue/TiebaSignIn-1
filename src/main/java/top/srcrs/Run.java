@@ -233,6 +233,13 @@ public class Run {
         }
     } 
 **/
+      /**
+     * 发送运行结果到微信，通过 PUSHPLUS
+     *
+     * @param sckey
+     * @author srcrs
+     * @Time 2020-10-31
+     */
      public void send(String sckey) {
         /** 将要推送的数据 */
         String text = "总: " + followNum + " - ";
