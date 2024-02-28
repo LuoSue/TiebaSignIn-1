@@ -1,8 +1,5 @@
 package top.srcrs;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -17,7 +14,11 @@ import org.slf4j.LoggerFactory;
 import top.srcrs.domain.Cookie;
 import top.srcrs.util.Encryption;
 import top.srcrs.util.Request;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
