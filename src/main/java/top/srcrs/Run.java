@@ -244,7 +244,7 @@ public class Run {
 try {
             String token = sckey;
             String title = URLEncoder.encode("百度贴吧自动签到", "UTF-8");
-            String content = URLEncoder.encode(body, "UTF-8");
+            String content = URLEncoder.encode(desp, "UTF-8");
             String urlx = "https://www.pushplus.plus/send?title=" + title + "&content=" + content + "&token=" + token;
             URL url = new URL(urlx);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
