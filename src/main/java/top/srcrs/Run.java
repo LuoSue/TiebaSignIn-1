@@ -1,5 +1,8 @@
 package top.srcrs;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -200,8 +203,8 @@ public class Run {
      * @author srcrs
      * @Time 2020-10-31
      */
-    public void send(String sckey) {
-        /** 将要推送的数据 */
+    /**   public void send(String sckey) {
+       
         String text = "总: " + followNum + " - ";
         text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
         String desp = "共 " + followNum + " 贴吧\n\n";
@@ -226,6 +229,37 @@ public class Run {
             LOGGER.info("server酱推送正常");
         } catch (Exception e) {
             LOGGER.error("server酱发送失败 -- " + e);
+        }
+    } 
+**/
+     public void send(String sckey) {
+        /** 将要推送的数据 */
+        String text = "总: " + followNum + " - ";
+        text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
+        String desp = "共 " + followNum + " 贴吧\n\n";
+        desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
+        String body = "text=" + text + "&desp=" + "TiebaSignIn运行结果\n\n" + desp;
+
+
+          try {
+            URL url = new URL("\"https://www.pushplus.plus/send?title=\"+ 百度贴吧签到任务 +\"&content=\"+ body +\"&token=\" + sckey;");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            System.out.println("Response: " + response.toString());
+            connection.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
