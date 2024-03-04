@@ -60,7 +60,7 @@ BDUSS | xxxxxxxxxxx
 
 每天早上`6:30`将会自动进行签到
 
-## 添加server酱推送
+## 添加PushPlus酱推送
 
 需在Secrets中添加[server酱](http://sc.ftqq.com/)的`SCKEY`，格式如下
 
