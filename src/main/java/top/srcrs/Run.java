@@ -14,7 +14,11 @@ import org.slf4j.LoggerFactory;
 import top.srcrs.domain.Cookie;
 import top.srcrs.util.Encryption;
 import top.srcrs.util.Request;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -200,8 +204,8 @@ public class Run {
      * @author srcrs
      * @Time 2020-10-31
      */
-    public void send(String sckey) {
-        /** 将要推送的数据 */
+    /**   public void send(String sckey) {
+       
         String text = "总: " + followNum + " - ";
         text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
         String desp = "共 " + followNum + " 贴吧\n\n";
@@ -226,6 +230,47 @@ public class Run {
             LOGGER.info("server酱推送正常");
         } catch (Exception e) {
             LOGGER.error("server酱发送失败 -- " + e);
+        }
+    } 
+**/
+      /**
+     * 发送运行结果到微信，通过 PUSHPLUS
+     *
+     * @param sckey
+     * @author srcrs
+     * @Time 2020-10-31
+     */
+     public void send(String sckey) {
+        /** 将要推送的数据 */
+        String text = "总: " + followNum + " - ";
+        text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
+        String desp = "共 " + followNum + " 贴吧\n\n";
+        desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
+        String body = "text=" + text + "&desp=" + "TiebaSignIn运行结果\n\n" + desp;
+
+try {
+            String token = sckey;
+            String title = URLEncoder.encode("百度贴吧自动签到", "UTF-8");
+            String content = URLEncoder.encode(desp, "UTF-8");
+            String urlx = "https://www.pushplus.plus/send?title=" + title + "&content=" + content + "&token=" + token;
+            URL url = new URL(urlx);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            System.out.println("Response: " + response.toString());
+            connection.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
