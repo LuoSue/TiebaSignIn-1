@@ -204,16 +204,16 @@ public class Run {
      * @author srcrs
      * @Time 2020-10-31
      */
-    /**   public void send(String sckey) {
-       
+    public void send(String sckey) {
+       https://sctapi.ftqq.com/
         String text = "总: " + followNum + " - ";
         text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
         String desp = "共 " + followNum + " 贴吧\n\n";
         desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
-        String body = "text=" + text + "&desp=" + "TiebaSignIn运行结果\n\n" + desp;
+        String body = "title=TiebaSignIn运行结果&desp=" + desp;
         StringEntity entityBody = new StringEntity(body, "UTF-8");
         HttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://sc.ftqq.com/" + sckey + ".send");
+        HttpPost httpPost = new HttpPost("https://sctapi.ftqq.com/" + sckey + ".send");
         httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
         httpPost.setEntity(entityBody);
         HttpResponse resp = null;
@@ -232,45 +232,4 @@ public class Run {
             LOGGER.error("server酱发送失败 -- " + e);
         }
     } 
-**/
-      /**
-     * 发送运行结果到微信，通过 PUSHPLUS
-     *
-     * @param sckey
-     * @author srcrs
-     * @Time 2020-10-31
-     */
-     public void send(String sckey) {
-        /** 将要推送的数据 */
-        String text = "总: " + followNum + " - ";
-        text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
-        String desp = "共 " + followNum + " 贴吧\n\n";
-        desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
-        String body = "text=" + text + "&desp=" + "TiebaSignIn运行结果\n\n" + desp;
-
-try {
-            String token = sckey;
-            String title = URLEncoder.encode("百度贴吧自动签到", "UTF-8");
-            String content = URLEncoder.encode(desp, "UTF-8");
-            String urlx = "https://www.pushplus.plus/send?title=" + title + "&content=" + content + "&token=" + token;
-            URL url = new URL(urlx);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            StringBuilder response = new StringBuilder();
-
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            System.out.println("Response: " + response.toString());
-            connection.disconnect();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
