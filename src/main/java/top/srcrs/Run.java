@@ -209,7 +209,7 @@ public class Run {
         text += "成功: " + success.size() + " 失败: " + (followNum - success.size());
         String desp = "共 " + followNum + " 贴吧\n\n";
         desp += "成功: " + success.size() + " 失败: " + (followNum - success.size());
-        String body = "title=TiebaSignIn运行结果&desp=" + desp;
+        String body = "title=TiebaSignIn运行结果&short=" + desp;
         StringEntity entityBody = new StringEntity(body, "UTF-8");
         HttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost("https://sctapi.ftqq.com/" + sckey + ".send");
