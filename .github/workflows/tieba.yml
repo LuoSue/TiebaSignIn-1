@@ -1,11 +1,11 @@
-# 每天6:30执行
-# UTC 时间，北京时间需要 UTC+8
+# 每天北京时间6:30执行
+# UTC 时间为前一天的22:30
 name: Start
 
 on:
    workflow_dispatch:
    schedule:
-       - cron: '10 0 * * *'
+       - cron: '30 22 * * *'
 
 jobs:
   TiebaSignIn:
@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v4
       with:
         java-version: 1.8
     - name: Cache local Maven repository
