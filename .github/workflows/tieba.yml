@@ -34,6 +34,7 @@ jobs:
           BDUSS: ${{ secrets.BDUSS2 }}
           SCKEY: ${{ secrets.SCKEY }}
         run: |
+          mvn clean
           mvn -B compile exec:java \
             -Dexec.mainClass="top.srcrs.Run" \
             -Dexec.args="$BDUSS $SCKEY"
