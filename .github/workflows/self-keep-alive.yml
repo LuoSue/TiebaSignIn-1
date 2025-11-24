@@ -1,0 +1,74 @@
+on:
+  schedule:
+    - cron: '0 0 * * *' # daily at 00:00 UTC; workflow will only push when 30 days passed since last push
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Ensure keep-alive every 30 days
+        env:
+          KEEPALIVE_FILE: ".github/KEEP_ALIVE.md"
+          META_FILE: ".github/KEEP_ALIVE_TIMESTAMP"
+          MIN_DAYS: "30"
+        run: |
+          set -euo pipefail
+
+          now_ts=$(date +%s)
+          now_iso=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          KEEPALIVE_FILE="${KEEPALIVE_FILE}"
+          META_FILE="${META_FILE}"
+          MIN_DAYS=${MIN_DAYS}
+
+          # read last timestamp if exists
+          if [ -f "$META_FILE" ]; then
+            last_iso=$(cat "$META_FILE" 2>/dev/null || echo "")
+          else
+            last_iso=""
+          fi
+
+          if [ -z "$last_iso" ]; then
+            days_since=$((MIN_DAYS)) # force first run to update
+          else
+            # convert to seconds since epoch
+            last_ts=$(date -d "$last_iso" +%s 2>/dev/null || echo 0)
+            if [ "$last_ts" -eq 0 ]; then
+              days_since=$((MIN_DAYS))
+            else
+              diff=$(( (now_ts - last_ts) / 86400 ))
+              days_since=$diff
+            fi
+          fi
+
+          echo "Days since last keep-alive: $days_since"
+
+          if [ "$days_since" -lt "$MIN_DAYS" ]; then
+            echo "Less than $MIN_DAYS days since last update, nothing to do."
+            exit 0
+          fi
+
+          # update keep-alive file and meta timestamp
+          echo "Kept alive by workflow: keep-alive" > "$KEEPALIVE_FILE"
+          echo "UTC: $now_iso" >> "$KEEPALIVE_FILE"
+
+          echo "$now_iso" > "$META_FILE"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$KEEPALIVE_FILE" "$META_FILE"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: keep-alive $now_iso"
+          git push

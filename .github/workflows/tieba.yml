@@ -1,33 +1,30 @@
-# 每天6:30执行
-# UTC 时间，北京时间需要 UTC+8
-name: Start
+name: Daily Tieba Sign-In
 
 on:
-   workflow_dispatch:
-   schedule:
-       - cron: '10 0 * * *'
+  workflow_dispatch:
+  schedule:
+    - cron: '30 22 * * *'  # 北京时间 6:30 (UTC+8)
 
 jobs:
-  TiebaSignIn:
-
+  signin:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    - name: Cache local Maven repository
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-    - name: Build with Maven
-      env:
-        BDUSS: ${{ secrets.BDUSS }}
-        SCKEY: ${{ secrets.SCKEY }}
-      run: |
-        mvn compile exec:java -Dexec.mainClass="top.srcrs.Run" -Dexec.args="${BDUSS} ${SCKEY}"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+          cache: 'maven'  # 使用官方推荐的 Maven 依赖缓存
+
+      - name: Build and execute
+        env:
+          BDUSS: ${{ secrets.BDUSS }}
+          SCKEY: ${{ secrets.SCKEY }}
+        run: |
+          mvn -B compile exec:java \
+            -Dexec.mainClass="top.srcrs.Run" \
+            -Dexec.args="$BDUSS $SCKEY"
