@@ -159,7 +159,7 @@ public class Run {
         Integer flag = 2;
         try {
             while (success.size() < followNum && flag > 0) {
-                LOGGER.info("-----第 {} 轮签到开始-----", 5 - flag + 1);
+                LOGGER.info("-----第 {} 轮签到开始-----", 2 - flag + 1);
                 LOGGER.info("还剩 {} 贴吧需要签到", followNum - success.size());
                 Iterator<String> iterator = follow.iterator();
                 Random random = new Random();  // 提前定义好，复用更好
