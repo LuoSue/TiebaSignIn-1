@@ -155,20 +155,37 @@ public class Run {
      * @Time 2020-10-31
      */
     public void runSign() {
-        // 当执行 5 轮所有贴吧还未签到成功就结束操作
-        Integer flag = 5;
+        // 当执行 2 轮所有贴吧还未签到成功就结束操作
+        Integer flag = 2;
         try {
             while (success.size() < followNum && flag > 0) {
                 LOGGER.info("-----第 {} 轮签到开始-----", 5 - flag + 1);
                 LOGGER.info("还剩 {} 贴吧需要签到", followNum - success.size());
                 Iterator<String> iterator = follow.iterator();
+                Random random = new Random();  // 提前定义好，复用更好
                 while (iterator.hasNext()) {
                     String s = iterator.next();
                     String rotation = s.replace("%2B", "+");
                     String body = "kw=" + s + "&tbs=" + tbs + "&sign=" + Encryption.enCodeMd5("kw=" + rotation + "tbs=" + tbs + "tiebaclient!!!");
                     JSONObject post = new JSONObject();
                     post = Request.post(SIGN_URL, body);
-                    int randomTime = new Random().nextInt(200) + 300;
+                    //int randomTime = new Random().nextInt(200) + 300;
+                    long randomTime;
+                    double chance = random.nextDouble();
+                    if (chance < 0.03) { 
+                        // 3% 概率：上厕所、接电话等，15~90秒
+                        randomTime = 15000 + random.nextInt(75001); // 15000 ~ 89999 ms
+                    } else if (chance < 0.15) { 
+                        // 12% 概率：划手机、喝水等，4~12秒
+                        randomTime = 2000 + random.nextInt(8001);   // 4000 ~ 11999 ms
+                    } else { 
+                        // 85% 概率：正常操作，模拟人类点击间隔（正态分布）
+                        double gaussian = random.nextGaussian();
+                        randomTime = (int) (gaussian * 400 + 1200);
+                        // 限制范围
+                        if (randomTime < 400) randomTime = 400;
+                        if (randomTime > 4000) randomTime = 4000;
+                    }
                     LOGGER.info("等待 {} 毫秒", randomTime);
                     TimeUnit.MILLISECONDS.sleep(randomTime);
                     if ("0".equals(post.getString("error_code"))) {
@@ -182,8 +199,8 @@ public class Run {
                     }
                 }
                 if (success.size() != followNum - invalid.size()) {
-                    // 为防止短时间内多次请求接口，触发风控，设置每一轮签到完等待 5 分钟
-                    Thread.sleep(1000 * 60 * 5);
+                    // 为防止短时间内多次请求接口，触发风控，设置每一轮签到完等待 2 分钟
+                    Thread.sleep(1000 * 60 * 2);
                     /**
                      * 重新获取 tbs
                      * 尝试解决以前第 1 次签到失败，剩余 4 次循环都会失败的错误。
