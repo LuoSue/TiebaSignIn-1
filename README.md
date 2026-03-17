@@ -20,6 +20,11 @@
 # 使用方法
 
 ## 1.fork本项目
+### 必须检查的仓库设置
+
+1. Settings -> Actions -> General -> Workflow permissions：选择 "Read and write permissions"（以允许 GITHUB_TOKEN push）。
+
+2. 确保仓库没有被 Archived（Settings -> General -> Danger Zone: Archive repository）。
 
 ## 2.获取BDUSS
 
