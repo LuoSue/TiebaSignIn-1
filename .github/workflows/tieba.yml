@@ -38,3 +38,13 @@ jobs:
           mvn -B compile exec:java \
             -Dexec.mainClass="top.srcrs.Run" \
             -Dexec.args="$BDUSS $SCKEY"
+
+      - name: Build and execute , next account
+        env:
+          BDUSS: ${{ secrets.BDUSS3 }}
+          SCKEY: ${{ secrets.SCKEY }}
+        run: |
+          mvn clean
+          mvn -B compile exec:java \
+            -Dexec.mainClass="top.srcrs.Run" \
+            -Dexec.args="$BDUSS $SCKEY"
