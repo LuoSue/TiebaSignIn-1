@@ -39,7 +39,7 @@ jobs:
             -Dexec.mainClass="top.srcrs.Run" \
             -Dexec.args="$BDUSS $SCKEY"
 
-      - name: Build and execute , next account
+      - name: Build and execute , thrid account
         env:
           BDUSS: ${{ secrets.BDUSS3 }}
           SCKEY: ${{ secrets.SCKEY }}
