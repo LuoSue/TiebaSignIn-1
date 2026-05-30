@@ -3,7 +3,7 @@ name: Daily Tieba Sign-In
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 22 * * *'  # 北京时间 6:30 (UTC+8)
+    - cron: '30 22 * * *'  # UTC 22:30 = 北京时间次日 06:30
 
 jobs:
   signin:
@@ -13,18 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Java
-        uses: actions/setup-java@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          distribution: 'zulu'
-          java-version: '8'
-          cache: 'maven'  # 使用官方推荐的 Maven 依赖缓存
+          python-version: '3.11'
 
-      - name: Build and execute
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run sign-in
         env:
           BDUSS: ${{ secrets.BDUSS }}
-          SCKEY: ${{ secrets.SCKEY }}
-        run: |
-          mvn -B compile exec:java \
-            -Dexec.mainClass="top.srcrs.Run" \
-            -Dexec.args="$BDUSS $SCKEY"
+        run: python run.py
