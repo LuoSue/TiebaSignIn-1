@@ -1,15 +1,14 @@
 package top.srcrs.util;
 
-import com.alibaba.fastjson.JSONObject;
-import org.apache.http.*;
+import com.alibaba.fastjson2.JSONObject;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -18,6 +17,7 @@ import top.srcrs.domain.Cookie;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 封装的网络请求请求工具类
@@ -113,6 +113,37 @@ public class Request {
         } finally {
             return JSONObject.parseObject(respContent);
         }
+    }
+
+    /**
+     * 发送post请求，带重试（指数退避）
+     *
+     * @param url        请求的地址
+     * @param body       携带的参数
+     * @param maxRetries 最大重试次数（含首次请求）
+     * @return JSONObject
+     */
+    public static JSONObject postWithRetry(String url, String body, int maxRetries) {
+        for (int i = 0; i < maxRetries; i++) {
+            try {
+                JSONObject result = post(url, body);
+                if (result != null) {
+                    return result;
+                }
+            } catch (Exception e) {
+                LOGGER.info("POST 请求失败，重试 {}/{} -- {}", i + 1, maxRetries, e.getMessage());
+            }
+            if (i < maxRetries - 1) {
+                try {
+                    double waitSeconds = 1.5 * Math.pow(2, i) + Math.random();
+                    TimeUnit.MILLISECONDS.sleep((long) (waitSeconds * 1000));
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+        LOGGER.error("POST 请求失败，已达最大重试次数 {}", maxRetries);
+        return null;
     }
 
     /**
