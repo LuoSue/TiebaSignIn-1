@@ -174,13 +174,12 @@ public class Request {
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
-        if(result.toString().contains("很抱歉，没有找到相关内容")){
-            LOGGER.info("{} 不存在",name);
+        if (result.toString().contains("很抱歉，没有找到相关内容")) {
+            LOGGER.info("{} 不存在", name);
             return true;
         } else {
-            LOGGER.info("{} 存在",name);
+            LOGGER.info("{} 存在", name);
             return false;
         }
     }
 }
-
