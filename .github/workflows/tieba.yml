@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '30 22 * * *'  # UTC 22:30 = 北京时间次日 06:30
+  push:                          
+    branches: [ master ]         
 
 jobs:
   signin:
