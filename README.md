@@ -40,13 +40,21 @@ BDUSS | xxxxxxxxxxx
 
 ![](./assets/添加BDUSS.gif)
 
-## 4.开启actions
+## 4.将WECHAT_WEBHOOK_KEY添加到仓库的Secrets中
+
+Name | Value
+-|-
+WECHAT_WEBHOOK_KEY | 企业微信群机器人 Webhook 地址里 key= 后面那一段
+
+在你 fork 的仓库 Settings → Secrets and variables → Actions → New repository secret 加一条
+
+## 5.开启actions
 
 默认`actions`是处于禁止的状态，需要手动开启。
 
 ![](./assets/开启actions.gif)
 
-## 5.第一次运行actions
+## 6.第一次运行actions
 
 + 自己提交一次`push`。
 
@@ -61,12 +69,14 @@ BDUSS | xxxxxxxxxxx
 
 ## 成功了
 
-每天早上`6:30`将会自动进行签到。`tieba.yml` 中的 `workflow-keepalive` job 会自动保持该定时工作流处于启用状态。
-
+每天早上6:30将会自动进行签到。如果配置了 WECHAT_WEBHOOK_KEY，签到结果会推送到对应的企业微信群。tieba.yml 中的 workflow-keepalive job 会自动保持该定时工作流处于启用状态。
 
 Name | Value
 -|-
 SCKEY | xxxxxxxxxx
+## 2026-9-11
+
++ 增加了推送签到结果到企业微信群机器人功能
 
 ## 2026-5-30
 
