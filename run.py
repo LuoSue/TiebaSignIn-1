@@ -11,7 +11,9 @@ import logging
 import os
 import random
 import time
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+BJ_TZ = timezone(timedelta(hours=8))
 
 from tieba_client import TiebaClient
 import wechat_notify
@@ -109,7 +111,7 @@ def main() -> None:
 
 def _build_wechat_content(total: int, stats: dict) -> str:
     """构造推送到企业微信的 markdown 内容。"""
-    date_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    date_str = datetime.now(BJ_TZ).strftime("%Y-%m-%d %H:%M:%S")
     lines = [
         "# 贴吧签到结果",
         f"> 时间：{date_str}",
@@ -130,12 +132,12 @@ if __name__ == "__main__":
     except SystemExit:
         # 主动退出的错误（如 tbs 获取失败）也推一条到企业微信，便于排查
         wechat_notify.send_markdown(
-            f"# 贴吧签到结果\n> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 签到异常中断，请查看 Actions 运行日志"
+            f"# 贴吧签到结果\n> {datetime.now(BJ_TZ)} 签到异常中断，请查看 Actions 运行日志"
         )
         raise
     except Exception as e:  # noqa: BLE001 - 兜底推送，避免静默失败
         logger.exception("签到过程发生未预期异常")
         wechat_notify.send_markdown(
-            f"# 贴吧签到结果\n> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 签到异常：{e}"
+            f"# 贴吧签到结果\n> {datetime.now(BJ_TZ)} 签到异常：{e}"
         )
         raise
