@@ -115,8 +115,8 @@ def _build_wechat_content(total: int, stats: dict) -> str:
         f"> 时间：{date_str}",
         f"- 贴吧总数：**{total}**",
         f"- 签到成功：**{stats['success']}**",
-        f"- 已签到：{stats['exist']}",
-        f"- 被屏蔽：{stats['shield']}",
+        f"- 已经签到：{stats['exist']}",
+        f"- 被屏蔽的：{stats['shield']}",
         f"- 签到失败：{stats['error']}",
     ]
     if stats["error"] > 0:
