@@ -11,8 +11,12 @@ import logging
 import os
 import random
 import time
+from datetime import datetime, timezone, timedelta
+
+BJ_TZ = timezone(timedelta(hours=8))
 
 from tieba_client import TiebaClient
+import wechat_notify
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,6 +57,7 @@ def main() -> None:
     forums = client.get_favorites()
     if not forums:
         logger.warning("未获取到关注的贴吧，签到结束")
+        wechat_notify.send_markdown("# 贴吧签到结果\n> 未获取到关注的贴吧，签到结束")
         return
 
     # 3. 逐个签到 (带节流与失败重试机制)
@@ -153,6 +158,39 @@ def main() -> None:
     summary_lines.append("================================")
     logger.info("\n".join(summary_lines))
 
+    # 5. 推送签到结果到企业微信群机器人（可选，未配置 WECHAT_WEBHOOK_KEY 则自动跳过）
+    wechat_notify.send_markdown(_build_wechat_content(total, stats))
+
+
+def _build_wechat_content(total: int, stats: dict) -> str:
+    """构造推送到企业微信的 markdown 内容。"""
+    date_str = datetime.now(BJ_TZ).strftime("%Y-%m-%d %H:%M:%S")
+    lines = [
+        "# 贴吧签到结果",
+        f"> 时间：{date_str}",
+        f"- 贴吧总数：**{total}**",
+        f"- 签到成功：**{stats['success']}**",
+        f"- 已经签到：{stats['exist']}",
+        f"- 被屏蔽的：{stats['shield']}",
+        f"- 签到失败：{stats['error']}",
+    ]
+    if stats["error"] > 0:
+        lines.append("> 存在签到失败的贴吧，请查看 Actions 运行日志")
+    return "\n".join(lines)
+
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        # 主动退出的错误（如 tbs 获取失败）也推一条到企业微信，便于排查
+        wechat_notify.send_markdown(
+            f"# 贴吧签到结果\n> {datetime.now(BJ_TZ)} 签到异常中断，请查看 Actions 运行日志"
+        )
+        raise
+    except Exception as e:  # noqa: BLE001 - 兜底推送，避免静默失败
+        logger.exception("签到过程发生未预期异常")
+        wechat_notify.send_markdown(
+            f"# 贴吧签到结果\n> {datetime.now(BJ_TZ)} 签到异常：{e}"
+        )
+        raise
