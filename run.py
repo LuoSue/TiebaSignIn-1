@@ -18,6 +18,14 @@ BJ_TZ = timezone(timedelta(hours=8))
 from tieba_client import TiebaClient
 import wechat_notify
 
+
+def _beijing_time(seconds: float):
+    """将日志时间戳转换为北京时间，供 logging Formatter 使用。"""
+    return datetime.fromtimestamp(seconds, BJ_TZ).timetuple()
+
+
+logging.Formatter.converter = staticmethod(_beijing_time)
+
 logging.basicConfig(
     level=logging.INFO,
     format="[%(levelname)s] %(asctime)s: %(message)s",
