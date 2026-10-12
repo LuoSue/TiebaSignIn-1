@@ -1,25 +1,29 @@
 <div align="center"> 
 <h1 align="center">贴吧签到助手</h1>
-<img src="https://img.shields.io/github/issues/srcrs/TiebaSignIn?color=green">
-<img src="https://img.shields.io/github/stars/srcrs/TiebaSignIn?color=yellow">
-<img src="https://img.shields.io/github/forks/srcrs/TiebaSignIn?color=orange">
-<img src="https://img.shields.io/github/license/srcrs/TiebaSignIn?color=ff69b4">
-<img src="https://img.shields.io/github/languages/code-size/srcrs/TiebaSignIn?color=blueviolet">
+<img src="https://img.shields.io/github/issues/LuoSue/TiebaSignIn-1?color=green">
+<img src="https://img.shields.io/github/stars/LuoSue/TiebaSignIn-1?color=yellow">
+<img src="https://img.shields.io/github/forks/LuoSue/TiebaSignIn-1?color=orange">
+<img src="https://img.shields.io/github/license/LuoSue/TiebaSignIn-1?color=ff69b4">
+<img src="https://img.shields.io/github/languages/code-size/LuoSue/TiebaSignIn-1?color=blueviolet">
 </div>
 
 # 简介
 
-用的是手机端的接口，签到经验更多，用户只需要填写`BDUSS`即可，每日自动帮你签到，最多支持`200`个贴吧签到。
+用的是手机端的接口，签到经验更多，用户只需要填写`BDUSS`即可，使用Github Actions自动签到。
 
 # 功能
 
-+ 贴吧签到(最多支持 200 个)
-
-+ 支持推送运行结果至微信(通过 server 酱)
++ 贴吧自动签到
++ 签到结果通过企业微信群机器人推送到企业微信群
 
 # 使用方法
 
 ## 1.fork本项目
+### 必须检查的仓库设置
+
+1. 确保 `Settings -> Actions -> General` 中 Actions 处于启用状态。`tieba.yml` 中的 `workflow-keepalive` job 已配置 `actions: write` 权限，无需授予仓库 `Read and write permissions`。
+
+2. 确保仓库没有被 Archived（Settings -> General -> Danger Zone: Archive repository）。
 
 ## 2.获取BDUSS
 
@@ -37,13 +41,21 @@ BDUSS | xxxxxxxxxxx
 
 ![](./assets/添加BDUSS.gif)
 
-## 4.开启actions
+## 4.将WECHAT_WEBHOOK_KEY添加到仓库的Secrets中
+
+Name | Value
+-|-
+WECHAT_WEBHOOK_KEY | 企业微信群机器人 Webhook 地址里 key= 后面那一段
+
+在你 fork 的仓库 Settings → Secrets and variables → Actions → New repository secret 加一条
+
+## 5.开启actions
 
 默认`actions`是处于禁止的状态，需要手动开启。
 
 ![](./assets/开启actions.gif)
 
-## 5.第一次运行actions
+## 6.第一次运行actions
 
 + 自己提交一次`push`。
 
@@ -58,15 +70,17 @@ BDUSS | xxxxxxxxxxx
 
 ## 成功了
 
-每天早上`6:30`将会自动进行签到
+每天早上6:30将会自动进行签到。如果配置了 WECHAT_WEBHOOK_KEY，签到结果会推送到对应的企业微信群。tieba.yml 中的 workflow-keepalive job 会自动保持该定时工作流处于启用状态。
 
-## 添加server酱推送
+## 2026-9-11
 
-需在Secrets中添加[server酱](http://sc.ftqq.com/)的`SCKEY`，格式如下
++ 增加了推送签到结果到企业微信群机器人功能
 
-Name | Value
--|-
-SCKEY | xxxxxxxxxx
+## 2026-5-30
+
++ 代码重构
+
++ 修改 API 以及签到策略
 
 ## 2020-11-01
 
